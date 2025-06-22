@@ -1,9 +1,8 @@
 <template>
     <div class="card">
-        <!-- <h2>{{ item?.price }}</h2> -->
-        <img :src="item?.imageUrl" alt="">
-        <h2>R {{ item?.price }}</h2>
-        <p>{{ item?.description }}</p>
+        <img :src="item.imageUrl" alt="">
+        <h2>R {{ item.price }}</h2>
+        <p>{{ item.description }}</p>
         <button type="button" @click="remove">Add to Cart</button>
     </div>
 </template>

@@ -1,28 +1,68 @@
 <template>
-   <div class="home-container">
-     <div class="card">
+  
+  <div class="home-container">
+    <div class="card">
+
        
-       <h1 v-if="login">Welcome Back!</h1>
-       <h1 v-if="!login">Welcome User!</h1>  
-        <a href="/login"><button @click="login = true">Log In</button></a>
-        <a href="/login"><button @click="login = false">Sign Up</button></a>
-       
+       <h1>FURNITURE WITH TERSH🪵</h1>
+         
+       <button @click="handleLogin">Log In</button>
+       <button @click="controlLogin">Sign Up</button>
+
+          <h3 v-if="showMessage">{{ login? 'Welcome Back!' : 'Welcome User!' }}</h3>
+        
+           
       </div>
       
         <img :src="imageUrl" alt="pic">
   
     </div>
     </template>
+    
 
 <script>
+
 
 export default {
   data() {
     return {
       imageUrl: "https://media.istockphoto.com/id/520536109/photo/contemporary-elegant-luxury-living-room.jpg?s=612x612&w=0&k=20&c=B2qVuu2PPjkw_CebnOicutAJdSa9K_z5IB4TnZWOTY4=",
-      login:true,
+      login: false,
+      showMessage: false,
+      mode: 'login',
+
     }
   },
+
+  created(){
+     if (this.$router.query.mode === 'signup') {
+      this.mode = 'signup';
+     }
+  },
+
+
+  methods: {
+    handleLogin() {
+      this.login = true;
+      this.showMessage = true;
+
+      
+      setTimeout(() => {
+        this.$router.push({path: '/login' , query:{mode: 'login'} });
+      }, 1700);
+    },
+
+    controlLogin() {
+      this.login = false;
+      this.showMessage = true;
+       
+      setTimeout(() => {
+        this.$router.push({ path: '/login', query: {mode: 'signup'} });
+      }, 1800);
+  
+    }
+  }
+
   
 }
 </script>
@@ -78,6 +118,7 @@ h1 {
   font-size: 2rem;
   text-align: center;
   padding: 0.5rem 0;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 

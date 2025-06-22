@@ -1,5 +1,8 @@
 <template>
   <div class="input-container">
+
+    <h2>{{ mode === 'signup'? 'Create an Account': 'Welcome Back' }}</h2>
+
     <span>Email: </span>
     <input
       v-model="email"
@@ -16,24 +19,51 @@
     />
     <br /><br />
 
+    
+    
+    
+    <div v-if="mode === 'signup'">
+      <input v-model="name" type="text" placeholder="Name">
+      <br>
+      <input v-model="surname"  type="text" placeholder="Surname">
+      <br>
+      <input v-model="password2" type="password" placeholder="Create Password">
+      <br>
+      <input v-model="password3"  type="password" placeholder="Confirm Password">
+      
+    </div>
+
+
     <button @click="submitControl">Submit</button>
 
-    
     <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
     <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
+
+
 export default {
+  
   data() {
     return {
       email: '',
       password: '',
       successMessage: '',
-      errorMessage: ''
+      errorMessage: '',
+      name: '',
+      surname: '',
+      password2: '',
+      password3: '',
     };
   },
+  computed: {
+    mode() {
+      return this.$route.query.mode || 'login';
+    }
+  },
+
   methods: {
   submitControl(event) {
     event.preventDefault();
@@ -51,12 +81,28 @@ export default {
       this.errorMessage = 'Please enter a valid email address.';
       return;
     }
+    if (this.mode === 'signup') {
+      if (!this.name || !this.surname || !this.password2 || !this.password3) {
+        this.successMessage = '';
+        this.errorMessage = 'Please complete all signup fields.' ;
+        return;
+      }
+      if (this.password2 !== this.password3) {
+        this.successMessage = '';
+        this.errorMessage = 'Passwords do not match.';
+        return;
+      }
+    }
+
+
 
     this.errorMessage = '';
-    this.successMessage = 'Login successful! Enjoy Shopping!';
+    this.successMessage = (this.mode === "signup" ? "Sign-up" : "Login") + " successful!";
+
+
 
     setTimeout(() => {
-      this.$router.push('/catalogue'); 
+      this.$router.push('/products'); 
     }, 1000); 
   }
 }
